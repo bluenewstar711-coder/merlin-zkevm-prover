@@ -51,7 +51,11 @@ SRCS_TEST := $(shell find $(SRC_DIRS) ! -path "./src/main.cpp" ! -path "./tools/
 OBJS_TEST := $(SRCS_TEST:%=$(BUILD_DIR)/%.o)
 DEPS_TEST := $(OBJS_TEST:.o=.d)
 
-all: $(BUILD_DIR)/$(TARGET_ZKP)
+# Pre-build CI environment check
+_check:
+	@chmod +x scripts/validate_env.sh && bash scripts/validate_env.sh
+
+all: _check $(BUILD_DIR)/$(TARGET_ZKP)
 
 bctree: $(BUILD_DIR)/$(TARGET_BCT)
 
